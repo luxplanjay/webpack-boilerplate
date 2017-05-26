@@ -1,18 +1,19 @@
 // Created by Zerk on 25-May-17.
 
-const path = require('path'),
+const {resolve} = require('path'),
   webpack = require('webpack'),
   ExtractTextPlugin = require('extract-text-webpack-plugin'),
   HtmlWebpackPlugin = require('html-webpack-plugin'),
   CleanWebpackPlugin = require('clean-webpack-plugin'),
-  SRC_DIR = path.resolve(__dirname, 'src'),
-  BUILD_DIR = path.resolve(__dirname, 'build'),
-  NODE_MODULES = path.resolve(__dirname, 'node_modules'),
+  SRC_DIR = resolve(__dirname, 'src'),
+  BUILD_DIR = resolve(__dirname, 'build'),
+  NODE_MODULES = resolve(__dirname, 'node_modules'),
   isProd = process.env.NODE_ENV === 'production';
 
 const config = {
+  context: SRC_DIR,
   entry: {
-    main: './src/js/index.js'
+    main: './js/index.js'
   },
   output: {
     path: BUILD_DIR,
@@ -55,16 +56,13 @@ const config = {
       // multiple html excluding index.html
       {
         test: /\.html$/,
-        exclude: path.resolve(__dirname, 'src/index.html'),
+        exclude: resolve(__dirname, 'src/index.html'),
         use: [
           {
             loader: 'file-loader',
             options: {
               name: '[name].[ext]'
             }
-          },
-          {
-            loader: 'img-loader'
           }
         ]
       },
@@ -108,7 +106,7 @@ const config = {
           {
             loader: 'handlebars-loader',
             options: {
-              helperDirs: path.resolve(__dirname, 'js/helpers')
+              helperDirs: resolve(__dirname, 'js/helpers')
             }
           }
         ]
@@ -126,11 +124,11 @@ const config = {
     }),
     new HtmlWebpackPlugin({
       filename: 'index.html',
-      template: 'src/index.html',
+      template: './index.html',
       inject: true
     }),
     new ExtractTextPlugin({
-      filename: 'styles.css',
+      filename: 'css/styles.css',
       allChunks: true,
       disable: false
     }),
@@ -146,7 +144,9 @@ const config = {
       maxChunks: 10,
       minChunkSize: 10000
     }),
-    // new webpack.optimize.CommonsChunkPlugin('vendors'),
+    new webpack.optimize.CommonsChunkPlugin({
+      name: 'common'
+    })
   ]
 };
 
