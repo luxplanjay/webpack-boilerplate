@@ -23,13 +23,13 @@ const config = {
     rules: [
       // js
       {
-        test: /\.(js|jsx)$/,
+        test: /\.js$/,
         include: SRC_DIR,
         use: [
           {
             loader: 'babel-loader',
             options: {
-              presets: ['env', 'es2015']
+              presets: ['es2015']
             }
           }
         ]
