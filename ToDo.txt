@@ -7,5 +7,3 @@
 - https://www.npmjs.com/package/lodash-webpack-plugin
 
 4) need to confirm resolve object viability
-
-5) integrate ESLint
