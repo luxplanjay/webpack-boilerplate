@@ -125,6 +125,7 @@ const config = {
     new HtmlWebpackPlugin({
       filename: 'index.html',
       template: './index.html',
+      favicon: './img/favicon.png',
       inject: true
     }),
     new ExtractTextPlugin({

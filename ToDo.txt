@@ -1,6 +1,6 @@
 1) image minification with img-loader
 
-2) test hdb helpers availability in js/helpers
+2) test hbs helpers availability in js/helpers
 
 3) integrate Lodash
 - https://www.npmjs.com/package/babel-plugin-lodash
