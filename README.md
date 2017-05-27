@@ -7,6 +7,7 @@ Whats inside:
 - Supports multiple html files
 - ES6
 - Handlebars.js
+- ESLint
 
 What's not included:
 - List for ProvidePlugin must be written manually
