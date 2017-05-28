@@ -68,7 +68,7 @@ const config = {
       },
       // images
       {
-        test: /\.(jpe?g|png|gif|svg)$/i,
+        test: /\.(jpe?g|png|gif)$/i,
         include: SRC_DIR,
         use: [
           {
@@ -81,6 +81,32 @@ const config = {
           },
           {
             loader: 'img-loader'
+          }
+        ]
+      },
+      // svg
+      {
+        test: /\.svg$/i,
+        include: SRC_DIR,
+        use: [
+          {
+            loader: 'file-loader',
+            options: {
+              name: '[name].[ext]?[hash]',
+              outputPath: 'img/'
+            }
+          },
+          {
+            loader: 'img-loader',
+            options: {
+              svgo: {
+                plugins: [
+                  {removeTitle: true},
+                  {cleanupIDs: false},
+                  {convertPathData: false}
+                ]
+              }
+            }
           }
         ]
       },
@@ -119,8 +145,7 @@ const config = {
   },
   plugins: [
     new webpack.ProvidePlugin({
-      // $: 'jQuery',
-      // '_': 'lodash'
+      '_': 'lodash'
     }),
     new HtmlWebpackPlugin({
       filename: 'index.html',
