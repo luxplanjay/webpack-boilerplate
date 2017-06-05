@@ -1,14 +1,14 @@
 // Created by Zerk on 25-May-17.
 
 const {resolve} = require('path'),
-  webpack = require('webpack'),
-  ExtractTextPlugin = require('extract-text-webpack-plugin'),
-  HtmlWebpackPlugin = require('html-webpack-plugin'),
-  CleanWebpackPlugin = require('clean-webpack-plugin'),
-  SRC_DIR = resolve(__dirname, 'src'),
-  BUILD_DIR = resolve(__dirname, 'build'),
-  NODE_MODULES = resolve(__dirname, 'node_modules'),
-  isProd = process.env.NODE_ENV === 'production';
+      webpack = require('webpack'),
+      ExtractTextPlugin = require('extract-text-webpack-plugin'),
+      HtmlWebpackPlugin = require('html-webpack-plugin'),
+      CleanWebpackPlugin = require('clean-webpack-plugin'),
+      SRC_DIR = resolve(__dirname, 'src'),
+      BUILD_DIR = resolve(__dirname, 'build'),
+      NODE_MODULES = resolve(__dirname, 'node_modules'),
+      isProd = process.env.NODE_ENV === 'production';
 
 const config = {
   context: SRC_DIR,
@@ -162,7 +162,7 @@ const config = {
       'build'
     ]),
     new webpack.EnvironmentPlugin(['NODE_ENV']),
-    new webpack.optimize.UglifyJsPlugin(),
+    // new webpack.optimize.UglifyJsPlugin(),
     new webpack.LoaderOptionsPlugin({
       minimize: true
     }),
@@ -185,6 +185,10 @@ if (!isProd) {
     stats: 'errors-only',
     port: 9000
   };
+} else {
+  config.plugins.push(
+    new webpack.optimize.UglifyJsPlugin({ minimize: true })
+  );
 }
 
 module.exports = config;
