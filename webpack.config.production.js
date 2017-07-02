@@ -17,7 +17,7 @@ module.exports = {
   output: {
     path: BUILD_DIR,
     filename: 'js/[name].bundle.js',
-    publicPath: '/',
+    // publicPath: '/',
   },
   module: {
     rules: [
@@ -38,14 +38,14 @@ module.exports = {
       {
         test: /\.scss$/,
         include: SRC_DIR,
-        use: ['css-hot-loader'].concat(ExtractTextPlugin.extract({
+        use: ExtractTextPlugin.extract({
           fallback: 'style-loader',
           use: [
             { loader: 'css-loader', options: { sourceMap: true } },
             { loader: 'postcss-loader', options: { sourceMap: true } },
             { loader: 'sass-loader', options: { sourceMap: true } },
           ],
-        })),
+        }),
       },
       // html
       {
@@ -169,19 +169,11 @@ module.exports = {
     new webpack.optimize.CommonsChunkPlugin({
       name: 'commons',
     }),
-    new webpack.HotModuleReplacementPlugin(),
-    new webpack.NamedModulesPlugin(),
-    new webpack.NoEmitOnErrorsPlugin(),
+    new webpack.optimize.UglifyJsPlugin({
+      sourceMap: true,
+      minimize: true,
+      comments: false,
+    }),
+    // new webpack.optimize.ModuleConcatenationPlugin(),
   ],
-  devtool: 'cheap-module-eval-source-map',
-  devServer: {
-    publicPath: '/',
-    hot: true,
-    compress: true,
-    port: 9000,
-    historyApiFallback: true,
-    stats: 'errors-only',
-    clientLogLevel: 'warning',
-  },
 };
-
