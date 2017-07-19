@@ -5,7 +5,7 @@
   "main": "index.js",
   "scripts": {
     "dev": "cross-env NODE_ENV=development webpack-dev-server --config webpack.config.js",
-    "build": "cross-env NODE_ENV=production webpack -p --config webpack.config.production.js"
+    "prod": "cross-env NODE_ENV=production webpack -p --config webpack.config.production.js"
   },
   "author": "Zerk",
   "license": "MIT",
@@ -20,7 +20,7 @@
     "eslint": "^3.19.0",
     "eslint-config-airbnb-base": "^11.2.0",
     "eslint-plugin-import": "^2.2.0",
-    "extract-text-webpack-plugin": "^2.1.2",
+    "extract-text-webpack-plugin": "^3.0.0",
     "file-loader": "^0.11.2",
     "handlebars-loader": "^1.5.0",
     "html-loader": "^0.4.5",
@@ -31,7 +31,7 @@
     "sass-loader": "^6.0.6",
     "style-loader": "^0.18.2",
     "url-loader": "^0.5.9",
-    "webpack": "^3.0.0",
+    "webpack": "^3.2.0",
     "webpack-dev-server": "^2.5.0"
   },
   "dependencies": {

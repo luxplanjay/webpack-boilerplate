@@ -6,7 +6,6 @@ const CleanWebpackPlugin = require('clean-webpack-plugin');
 
 const SRC_DIR = resolve(__dirname, 'src');
 const BUILD_DIR = resolve(__dirname, 'build');
-const NODE_MODULES = resolve(__dirname, 'node_modules');
 
 module.exports = {
   context: SRC_DIR,
@@ -25,14 +24,7 @@ module.exports = {
       {
         test: /\.js$/,
         include: SRC_DIR,
-        use: [
-          {
-            loader: 'babel-loader',
-            options: {
-              presets: [['env', { modules: false }]],
-            },
-          },
-        ],
+        use: 'babel-loader',
       },
       // sass
       {
@@ -73,14 +65,12 @@ module.exports = {
           {
             loader: 'url-loader',
             options: {
-              name: '[name].[ext]?[hash]',
+              name: '[name].[ext]?[hash:5]',
               outputPath: 'img/',
               limit: 10000,
             },
           },
-          {
-            loader: 'img-loader',
-          },
+          { loader: 'img-loader' },
         ],
       },
       // svg
@@ -91,7 +81,7 @@ module.exports = {
           {
             loader: 'file-loader',
             options: {
-              name: '[name].[ext]?[hash]',
+              name: '[name].[ext]?[hash:5]',
               outputPath: 'img/',
             },
           },
@@ -140,7 +130,10 @@ module.exports = {
   },
   resolve: {
     extensions: ['.js', '.json', '.scss'],
-    modules: [SRC_DIR, NODE_MODULES],
+    modules: [SRC_DIR, 'node_modules'],
+    alias: {
+      '@': SRC_DIR,
+    },
   },
   plugins: [
     new webpack.ProvidePlugin({}),
