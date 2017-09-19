@@ -1,45 +1,42 @@
-const { resolve } = require('path');
+const path = require('path');
 const webpack = require('webpack');
 const ExtractTextPlugin = require('extract-text-webpack-plugin');
 const HtmlWebpackPlugin = require('html-webpack-plugin');
 const CleanWebpackPlugin = require('clean-webpack-plugin');
 
-const SRC_DIR = resolve(__dirname, 'src');
-const BUILD_DIR = resolve(__dirname, 'build');
+const SRC_DIR = path.resolve(__dirname, 'src');
+const DIST_DIR = path.resolve(__dirname, 'dist');
 
 module.exports = {
   context: SRC_DIR,
-  entry: {
-    app: './index.js',
-    commons: ['lodash'],
-  },
+  entry: [
+    'babel-polyfill',
+    './index.js'
+  ],
   output: {
-    path: BUILD_DIR,
-    filename: 'js/[name].bundle.js',
-    // publicPath: '/',
+    path: DIST_DIR,
+    filename: '[name].bundle.js',
+    publicPath: '/',
   },
   module: {
     rules: [
-      // js
       {
         test: /\.js$/,
         include: SRC_DIR,
         use: 'babel-loader',
       },
-      // sass
       {
         test: /\.scss$/,
         include: SRC_DIR,
         use: ExtractTextPlugin.extract({
           fallback: 'style-loader',
           use: [
-            { loader: 'css-loader', options: { sourceMap: true } },
-            { loader: 'postcss-loader', options: { sourceMap: true } },
-            { loader: 'sass-loader', options: { sourceMap: true } },
+            {loader: 'css-loader', options: {sourceMap: true}},
+            {loader: 'postcss-loader', options: {sourceMap: true}},
+            {loader: 'sass-loader', options: {sourceMap: true}},
           ],
         }),
       },
-      // html
       {
         test: /\.html$/,
         use: ['html-loader'],
@@ -47,7 +44,7 @@ module.exports = {
       // multiple html excluding index.html
       {
         test: /\.html$/,
-        exclude: resolve(__dirname, 'src/index.html'),
+        exclude: path.resolve(__dirname, 'src/index.html'),
         use: [
           {
             loader: 'file-loader',
@@ -57,9 +54,8 @@ module.exports = {
           },
         ],
       },
-      // images
       {
-        test: /\.(jpe?g|png|gif)$/i,
+        test: /\.(jpeg|png)$/i,
         include: SRC_DIR,
         use: [
           {
@@ -75,7 +71,6 @@ module.exports = {
           },
         ],
       },
-      // svg
       {
         test: /\.svg$/i,
         include: SRC_DIR,
@@ -92,18 +87,17 @@ module.exports = {
             options: {
               svgo: {
                 plugins: [
-                  { removeTitle: true },
-                  { cleanupIDs: false },
-                  { convertPathData: false },
+                  {removeTitle: true},
+                  {cleanupIDs: false},
+                  {convertPathData: false},
                 ],
               },
             },
           },
         ],
       },
-      // fonts
       {
-        test: /\.(otf|ttf|eot|woff|woff2)$/,
+        test: /\.(otf|ttf|eot)(\?[a-z0-9#=&.]+)?$/,
         include: SRC_DIR,
         use: [
           {
@@ -115,7 +109,6 @@ module.exports = {
           },
         ],
       },
-      // handlebars templates
       {
         test: /\.hbs$/,
         include: SRC_DIR,
@@ -123,7 +116,7 @@ module.exports = {
           {
             loader: 'handlebars-loader',
             options: {
-              helperDirs: resolve(__dirname, 'js/hbs-helpers'),
+              helperDirs: path.resolve(__dirname, 'js/hbs-helpers'),
             },
           },
         ],
@@ -138,37 +131,34 @@ module.exports = {
     },
   },
   plugins: [
-    new webpack.ProvidePlugin({}),
+    new CleanWebpackPlugin(['dist']),
     new HtmlWebpackPlugin({
       title: 'Placeholder',
       filename: 'index.html',
-      template: 'index.ejs',
-      favicon: 'favicon.png',
+      template: './index.ejs',
+      favicon: './favicon.png',
       inject: true,
       hash: true,
     }),
     new ExtractTextPlugin({
-      filename: 'css/styles.css',
+      filename: 'styles.min.css',
       allChunks: true,
       disable: false,
-    }),
-    new CleanWebpackPlugin(['build']),
-    new webpack.EnvironmentPlugin(['NODE_ENV']),
-    new webpack.LoaderOptionsPlugin({
-      minimize: true,
-    }),
-    new webpack.optimize.LimitChunkCountPlugin({
-      maxChunks: 10,
-      minChunkSize: 10000,
-    }),
-    new webpack.optimize.CommonsChunkPlugin({
-      name: 'commons',
     }),
     new webpack.optimize.UglifyJsPlugin({
       sourceMap: true,
       minimize: true,
       comments: false,
     }),
-    // new webpack.optimize.ModuleConcatenationPlugin(),
+    new webpack.LoaderOptionsPlugin({
+      minimize: true,
+    }),
+    new webpack.optimize.CommonsChunkPlugin({
+      name: 'commons',
+      filename: 'commons.js'
+    }),
+    new webpack.DefinePlugin({
+      'process.env.NODE_ENV': JSON.stringify('production')
+    }),
   ],
 };
