@@ -16,7 +16,7 @@ module.exports = {
   output: {
     path: DIST_DIR,
     filename: '[name].bundle.js',
-    publicPath: '/',
+    publicPath: '',
   },
   module: {
     rules: [
@@ -133,7 +133,7 @@ module.exports = {
   plugins: [
     new CleanWebpackPlugin(['dist']),
     new HtmlWebpackPlugin({
-      title: 'Placeholder',
+      title: 'Webpack App',
       filename: 'index.html',
       template: './index.ejs',
       favicon: './favicon.png',

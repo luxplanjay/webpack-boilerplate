@@ -10,8 +10,6 @@ module.exports = {
   context: SRC_DIR,
   entry: [
     'babel-polyfill',
-    'webpack-dev-server/client?http://localhost:9000',
-    'webpack/hot/only-dev-server',
     './index.js'
   ],
   output: {
@@ -130,7 +128,7 @@ module.exports = {
   plugins: [
     new CleanWebpackPlugin(['dist']),
     new HtmlWebpackPlugin({
-      title: 'Placeholder',
+      title: 'Webpack App',
       filename: 'index.html',
       template: './index.ejs',
       favicon: './favicon.png',
@@ -147,8 +145,18 @@ module.exports = {
     new webpack.DefinePlugin({
       'process.env.NODE_ENV': JSON.stringify('development')
     }),
-    new webpack.HotModuleReplacementPlugin()
   ],
+  devServer: {
+    contentBase: DIST_DIR,
+    publicPath: '/',
+    historyApiFallback: true,
+    noInfo: false,
+    quiet: false,
+    stats: 'errors-only',
+    clientLogLevel: 'warning',
+    compress: true,
+    port: 9000
+  },
   devtool: 'eval-source-map'
 };
 
