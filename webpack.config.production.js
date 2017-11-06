@@ -15,7 +15,7 @@ module.exports = {
   ],
   output: {
     path: DIST_DIR,
-    filename: '[name].bundle.js?[hash]',
+    filename: '[name].bundle.js?[chunkhash:10]',
     publicPath: '',
   },
   module: {
@@ -24,6 +24,14 @@ module.exports = {
         test: /\.js$/,
         include: SRC_DIR,
         use: 'babel-loader',
+      },
+      {
+        test: /\.css$/,
+        include: SRC_DIR,
+        use: ExtractTextPlugin.extract({
+          fallback: 'style-loader',
+          use: ['css-loader'],
+        }),
       },
       {
         test: /\.scss$/,
@@ -44,7 +52,7 @@ module.exports = {
           {
             loader: 'url-loader',
             options: {
-              name: '[name].[ext]?[hash]',
+              name: '[name].[ext]?[hash:10]',
               outputPath: 'img/',
               limit: 10000,
             },
@@ -59,7 +67,7 @@ module.exports = {
           {
             loader: 'file-loader',
             options: {
-              name: '[name].[ext]?[hash]',
+              name: '[name].[ext]?[hash:10]',
               outputPath: 'img/',
             },
           },
@@ -109,7 +117,7 @@ module.exports = {
       hash: true,
     }),
     new ExtractTextPlugin({
-      filename: 'styles.min.css?[hash]',
+      filename: 'styles.min.css?[contenthash:10]',
       allChunks: true,
       disable: false,
     }),
@@ -118,13 +126,13 @@ module.exports = {
       minimize: true,
       comments: false,
       compressor: {
-        warnings: false,
+        warnings: true,
         screw_ie8: true,
       },
     }),
     new webpack.optimize.CommonsChunkPlugin({
       name: 'commons',
-      filename: 'commons.js',
+      filename: 'commons.js?[chunkhash:10]',
     }),
     new webpack.DefinePlugin({
       'process.env.NODE_ENV': JSON.stringify('production'),

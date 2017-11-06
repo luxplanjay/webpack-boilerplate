@@ -27,6 +27,11 @@ module.exports = {
         use: 'babel-loader',
       },
       {
+        test: /\.css$/,
+        include: SRC_DIR,
+        use: ['style-loader', 'css-loader'],
+      },
+      {
         test: /\.scss$/,
         include: SRC_DIR,
         use: ['style-loader', 'css-loader', 'postcss-loader', 'sass-loader'],
