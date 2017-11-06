@@ -1,6 +1,7 @@
-Vanilla JS Webpack Project Boilerplate
+# Vanilla JS Webpack Boilerplate
 
-Whats inside:
+## What's inside
+
 - Dev and Prod modes
 - Image minification
 - Supports multiple entry points
@@ -8,8 +9,3 @@ Whats inside:
 - ES6, ES7
 - ESLint
 - Handlebars.js
-
-
-What's not included:
-- Brain :O
-

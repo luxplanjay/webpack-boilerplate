@@ -10,7 +10,9 @@ module.exports = {
   context: SRC_DIR,
   entry: [
     'babel-polyfill',
-    './index.js'
+    'webpack-dev-server/client?http://localhost:9000',
+    'webpack/hot/only-dev-server',
+    './index.js',
   ],
   output: {
     path: DIST_DIR,
@@ -27,29 +29,11 @@ module.exports = {
       {
         test: /\.scss$/,
         include: SRC_DIR,
-        use: [
-          {loader: 'style-loader'},
-          {loader: 'css-loader', options: {sourceMap: true}},
-          {loader: 'postcss-loader', options: {sourceMap: true}},
-          {loader: 'sass-loader', options: {sourceMap: true}},
-        ],
+        use: ['style-loader', 'css-loader', 'postcss-loader', 'sass-loader'],
       },
       {
         test: /\.html$/,
         use: ['html-loader'],
-      },
-      // multiple html, excluding index.html
-      {
-        test: /\.html$/,
-        exclude: path.resolve(__dirname, 'src/index.html'),
-        use: [
-          {
-            loader: 'file-loader',
-            options: {
-              name: '[name].[ext]',
-            },
-          },
-        ],
       },
       {
         test: /\.(jpg|png)$/i,
@@ -58,12 +42,12 @@ module.exports = {
           {
             loader: 'url-loader',
             options: {
-              name: '[name].[ext]?[hash:5]',
+              name: '[name].[ext]',
               outputPath: 'img/',
               limit: 10000,
             },
           },
-          {loader: 'img-loader'},
+          { loader: 'img-loader' },
         ],
       },
       {
@@ -73,7 +57,7 @@ module.exports = {
           {
             loader: 'file-loader',
             options: {
-              name: '[name].[ext]?[hash:5]',
+              name: '[name].[ext]',
               outputPath: 'img/',
             },
           },
@@ -82,9 +66,9 @@ module.exports = {
             options: {
               svgo: {
                 plugins: [
-                  {removeTitle: true},
-                  {cleanupIDs: false},
-                  {convertPathData: false},
+                  { removeTitle: true },
+                  { cleanupIDs: false },
+                  { convertPathData: false },
                 ],
               },
             },
@@ -119,7 +103,7 @@ module.exports = {
     ],
   },
   resolve: {
-    extensions: ['.js', '.json', '.scss'],
+    extensions: ['.js'],
     modules: [SRC_DIR, 'node_modules'],
     alias: {
       '@': SRC_DIR,
@@ -128,22 +112,21 @@ module.exports = {
   plugins: [
     new CleanWebpackPlugin(['dist']),
     new HtmlWebpackPlugin({
-      title: 'Webpack App',
       filename: 'index.html',
-      template: './index.ejs',
-      favicon: './favicon.png',
+      template: 'index.ejs',
+      favicon: 'favicon.png',
       inject: true,
       hash: true,
     }),
-    new webpack.LoaderOptionsPlugin({minimize: true}),
+    new webpack.HotModuleReplacementPlugin(),
     new webpack.NamedModulesPlugin(),
     new webpack.NoEmitOnErrorsPlugin(),
     new webpack.optimize.CommonsChunkPlugin({
       name: 'commons',
-      filename: 'commons.js'
+      filename: 'commons.js',
     }),
     new webpack.DefinePlugin({
-      'process.env.NODE_ENV': JSON.stringify('development')
+      'process.env.NODE_ENV': JSON.stringify('development'),
     }),
   ],
   devServer: {
@@ -152,11 +135,12 @@ module.exports = {
     historyApiFallback: true,
     noInfo: false,
     quiet: false,
+    hot: true,
     stats: 'errors-only',
     clientLogLevel: 'warning',
     compress: true,
-    port: 9000
+    port: 9000,
   },
-  devtool: 'eval-source-map'
+  devtool: 'eval-source-map',
 };
 

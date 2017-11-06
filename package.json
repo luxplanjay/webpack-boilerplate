@@ -1,6 +1,6 @@
 {
   "name": "webpack-boilerplate",
-  "version": "1.1.0",
+  "version": "1.1.1",
   "description": "Webpack App Boilerplate",
   "main": "index.js",
   "scripts": {
@@ -10,34 +10,33 @@
   "author": "Zerk",
   "license": "MIT",
   "devDependencies": {
-    "autoprefixer": "^7.1.4",
+    "autoprefixer": "^7.1.6",
     "babel-core": "^6.26.0",
-    "babel-eslint": "^8.0.0",
+    "babel-eslint": "^8.0.1",
     "babel-loader": "^7.1.2",
-    "babel-preset-env": "^1.6.0",
+    "babel-preset-env": "^1.6.1",
     "babel-preset-stage-2": "^6.24.1",
-    "clean-webpack-plugin": "^0.1.16",
-    "cross-env": "^5.0.5",
+    "clean-webpack-plugin": "^0.1.17",
+    "cross-env": "^5.1.1",
     "css-loader": "^0.28.7",
     "eslint": "^3.19.0",
     "eslint-config-airbnb-base": "^11.2.0",
-    "eslint-plugin-import": "^2.2.0",
-    "extract-text-webpack-plugin": "^3.0.0",
+    "eslint-plugin-import": "^2.8.0",
+    "extract-text-webpack-plugin": "^3.0.2",
     "file-loader": "^0.11.2",
     "handlebars-loader": "^1.6.0",
     "html-loader": "^0.5.1",
     "html-webpack-plugin": "^2.30.1",
     "img-loader": "^2.0.0",
-    "node-sass": "^4.5.3",
-    "postcss-loader": "^2.0.6",
+    "node-sass": "^4.6.0",
+    "postcss-loader": "^2.0.8",
     "sass-loader": "^6.0.6",
     "style-loader": "^0.18.2",
     "url-loader": "^0.5.9",
-    "webpack": "^3.6.0",
-    "webpack-dev-server": "^2.8.2"
+    "webpack": "^3.8.1",
+    "webpack-dev-server": "^2.9.4"
   },
   "dependencies": {
-    "babel-polyfill": "^6.26.0",
-    "handlebars": "^4.0.10"
+    "babel-polyfill": "^6.26.0"
   }
 }
