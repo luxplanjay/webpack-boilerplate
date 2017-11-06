@@ -88,18 +88,6 @@ module.exports = {
           },
         ],
       },
-      {
-        test: /\.hbs$/,
-        include: SRC_DIR,
-        use: [
-          {
-            loader: 'handlebars-loader',
-            options: {
-              helperDirs: path.resolve(__dirname, 'js/hbs-helpers'),
-            },
-          },
-        ],
-      },
     ],
   },
   resolve: {
