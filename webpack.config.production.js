@@ -3,6 +3,8 @@ const webpack = require('webpack');
 const ExtractTextPlugin = require('extract-text-webpack-plugin');
 const HtmlWebpackPlugin = require('html-webpack-plugin');
 const CleanWebpackPlugin = require('clean-webpack-plugin');
+const BundleAnalyzerPlugin = require('webpack-bundle-analyzer')
+  .BundleAnalyzerPlugin;
 
 const SRC_DIR = path.resolve(__dirname, 'src');
 const DIST_DIR = path.resolve(__dirname, 'dist');
@@ -107,17 +109,18 @@ module.exports = {
       '@': SRC_DIR,
     },
   },
+  devtool: 'cheap-module-source-map',
   plugins: [
     new CleanWebpackPlugin(['dist']),
     new HtmlWebpackPlugin({
       filename: 'index.html',
-      template: 'index.ejs',
+      template: 'index.html',
       favicon: 'favicon.png',
       inject: true,
       hash: true,
     }),
     new ExtractTextPlugin({
-      filename: 'styles.min.css?[contenthash:10]',
+      filename: 'styles.min.css?[contenthash]',
       allChunks: true,
       disable: false,
     }),
@@ -132,12 +135,13 @@ module.exports = {
     }),
     new webpack.optimize.CommonsChunkPlugin({
       name: 'commons',
-      filename: 'commons.js?[chunkhash:10]',
+      filename: 'commons.js?[chunkhash]',
     }),
     new webpack.DefinePlugin({
       'process.env': {
         NODE_ENV: JSON.stringify('production'),
       },
     }),
+    new BundleAnalyzerPlugin()
   ],
 };

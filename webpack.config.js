@@ -106,7 +106,7 @@ module.exports = {
     new CleanWebpackPlugin(['dist']),
     new HtmlWebpackPlugin({
       filename: 'index.html',
-      template: 'index.ejs',
+      template: 'index.html',
       favicon: 'favicon.png',
       inject: true,
       hash: true,
